@@ -1,0 +1,102 @@
+#!/bin/bash
+
+echo "your public key here" > /home/debian/.ssh/authorized_keys
+echo "your public key here" > /root/.ssh/authorized_keys
+echo "Welcome Proc :)" > /etc/motd
+
+export DISPLAY=:0.0
+
+rm -rf /root/*
+wget -O /root/directory-list-2.3-medium.txt https://raw.githubusercontent.com/daviddias/node-dirbuster/master/lists/directory-list-2.3-medium.txt
+wget -O /root/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
+wget -O /root/enum4linux.pl https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/master/enum4linux.pl
+wget -O /root/linpeas.sh  https://raw.githubusercontent.com/carlospolop/privilege-escalation-awesome-scripts-suite/master/linPEAS/linpeas.sh
+wget -O /root/php-reverse-shell.php https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
+git clone https://github.com/SecureAuthCorp/impacket /root/impacket
+git clone https://github.com/Hackplayers/evil-winrm /root/evil-winrm
+
+echo "deb http://http.kali.org/kali kali-rolling main non-free contrib" | sudo tee /etc/apt/sources.list
+wget -q -O - archive.kali.org/archive-key.asc | apt-key add
+
+echo 'XKBMODEL="pc105"' > /etc/default/keyboard
+echo 'XKBLAYOUT="fr"' >> /etc/default/keyboard
+echo 'XKBVARIANT=""' >> /etc/default/keyboard
+echo 'XKBOPTIONS=""' >> /etc/default/keyboard
+echo 'BACKSPACE="guess"' >> /etc/default/keyboard
+
+
+
+
+echo -e "My$Up3rP@ssW0rD\nMy$Up3rP@ssW0rD" | sudo passwd root
+
+apt-get update
+export DEBIAN_FRONTEND=noninteractive
+DEBIAN_FRONTEND=noninteractive sudo apt-get install ssmtp --assume-yes
+
+
+cat > /etc/ssmtp/ssmtp.conf <<- EOM
+root=boot_ovh@smtp.local
+mailhub=server.smtp.local:587
+FromLineOverride=YES
+AuthUser=boot_ovh@smtp.local
+AuthPass=smtp_password
+UseTLS=NO
+EOM
+
+
+
+
+DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration -y
+apt-get install -y libpq-dev
+apt-get install -y libc6
+
+yes | DEBIAN_FRONTEND=noninteractive sudo apt install -y xrdp --assume-yes
+sudo /etc/init.d/xrdp stop
+DEBIAN_FRONTEND=noninteractive apt-get install -y xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils --assume-yes
+sudo apt-get install materia-gtk-theme -y
+eval `dbus-launch --sh-syntax`
+xfconf-query -c xsettings -p /Net/ThemeName -s "Materia-dark" &
+xfce4-panel -r && xfwm4 --replace &
+kill -HUP $DBUS_SESSION_BUS_PID
+
+
+
+
+DEBIAN_FRONTEND=noninteractive apt-get install -y openvpn --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y gobuster --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y hydra --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y john --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y nmap --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install git -y --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y firefox-esr --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y netcat --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y ftp --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-client --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y sqlmap --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y zsh --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y smbclient --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y gedit --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y metasploit-framework --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y sqlmap --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y wpscan --assume-yes
+DEBIAN_FRONTEND=noninteractive apt-get install -y exploitdb --assume-yes
+
+chsh -s /usr/bin/zsh &
+
+
+
+
+sudo /etc/init.d/xrdp start
+
+echo 1 > /root/preparation_done
+
+cat > /thm.ovpn <<- EOM
+
+Your TryHackMe or HackTheBox openvpn configuration here
+
+EOM
+
+
+
+
+echo "OVH Server has been prepared !" | ssmtp email-me@smtp.local
